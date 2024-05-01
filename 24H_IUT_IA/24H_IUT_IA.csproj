@@ -10,9 +10,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Content Include="..\.dockerignore">
-        <Link>.dockerignore</Link>
-      </Content>
+      <ProjectReference Include="..\Network\Network.csproj" />
     </ItemGroup>
 
 </Project>

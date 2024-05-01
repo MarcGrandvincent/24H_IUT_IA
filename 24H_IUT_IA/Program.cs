@@ -1,3 +1,5 @@
-﻿// See https://aka.ms/new-console-template for more information
+﻿using _24H_IUT_IA.AI;
 
-Console.WriteLine("Hello, World!");
+var ai = new AI();
+
+ai.Start();
