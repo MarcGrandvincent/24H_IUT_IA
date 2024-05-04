@@ -1,4 +1,5 @@
-﻿namespace _24H_IUT_IA.Models;
+﻿using System.Diagnostics;
+namespace _24H_IUT_IA.Models;
 
 /// <summary>
 /// Represents a player in the game.
@@ -47,7 +48,7 @@ public class Player
     
     public int Order { get; set; }
     
-    private ActivityEnum GetActivity(string activity)
+    public ActivityEnum GetActivity(string activity)
     {
         return activity switch
         {
