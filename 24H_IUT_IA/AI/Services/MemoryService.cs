@@ -9,8 +9,8 @@ public class MemoryService
 {
     public string? TeamName { get; set; } = null;
     public int TeamNumber { get; set; } = 0;
-    public List<Player> Players { get; set; } = [];
-    public List<Road> Roads { get; set; } = [];
+    public List<Player> Players { get; set; } = new List<Player>();
+    public List<Road> Roads { get; set; } = new List<Road>();
     
     public int Turn { get; set; } = 0;
 
@@ -28,9 +28,19 @@ public class MemoryService
     {
         var roads = messageReceived.Split("|");
 
+        Road? lastRoad = null;
+        
         foreach (var road in roads)
         {
-            Roads.Add(new Road(road));
+            if (!(road is "True" or "False"))
+            {
+                lastRoad = new Road(road);
+                Roads.Add(lastRoad);
+            }
+            else
+            {
+                if (lastRoad != null) lastRoad.IsMonsterPresent = road == "True";
+            }
         }
     }
     
