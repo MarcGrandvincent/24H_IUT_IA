@@ -32,9 +32,10 @@ public class Player
 
     public bool CanBeBetray(Player player)
     {
-        if ((this.AttackValue <= player.AttackValue) && this.NumJoueur < player.NumJoueur)
+        if ((this.AttackValue <= player.AttackValue) && this.Order < player.Order)
             if (this.Activity == ActivityEnum.PILLER1 || this.Activity == ActivityEnum.PILLER2 || this.Activity == ActivityEnum.PILLER3 || this.Activity == ActivityEnum.PILLER4)
                 return true;
+        return false;
     }
     
     /// <summary>
@@ -43,6 +44,8 @@ public class Player
     public int LootValue { get; private set; }
     
     public List<int> Chests { get; set; } = new List<int>();
+    
+    public int Order { get; set; }
     
     /// <summary>
     /// Initializes a new instance of the Player class.

@@ -25,7 +25,7 @@ public abstract class DecisionMakingService
     /// </summary>
     /// <param name="lastReceivedMessage"> dernier message reçu</param>
     /// <returns></returns>
-    public string? TakeNewAction(string lastReceivedMessage)
+    public virtual string? TakeNewAction(string lastReceivedMessage)
     {
         if (this.Ai.MemoryService.TeamName is null)
         {
