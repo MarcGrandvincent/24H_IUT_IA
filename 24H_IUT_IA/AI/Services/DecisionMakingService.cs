@@ -10,7 +10,6 @@ public abstract class DecisionMakingService
     protected DecisionMakingService(AI ai)
     {
         Ai = ai;
-
     }
 
     /// <summary>

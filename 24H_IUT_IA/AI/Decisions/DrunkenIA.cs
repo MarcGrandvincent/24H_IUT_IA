@@ -5,8 +5,6 @@ namespace _24H_IUT_IA.AI.Decisions;
 
 public class DrunkenIA: DecisionMakingService
 {
-    private const string TeamName = "Les alcooliques anonymes"; 
-    
     public DrunkenIA(AI ai) : base(ai)
     {
         
@@ -15,10 +13,7 @@ public class DrunkenIA: DecisionMakingService
     public override string TakeNewAction(string lastReceivedMessage)
     {
         if (this.Ai.MemoryService.TeamName == null)
-        {
-            this.Ai.MemoryService.TeamName = TeamName;
-            return TeamName;
-        }
+            return AI.TeamName;
 
         return Messages.EndGame;
     }

@@ -1,4 +1,5 @@
-﻿using _24H_IUT_IA.Models;
+﻿using System.Runtime.CompilerServices;
+using _24H_IUT_IA.Models;
 
 namespace _24H_IUT_IA.AI.Services;
 
@@ -21,11 +22,32 @@ public class ReactionService
     /// <param name="receivedMessage">Le dernier message reçu.</param>
     public void ReactToMessage(string sentMessage, string receivedMessage)
     {
-        
+        switch (sentMessage)
+        {
+            case Messages.PlayersInfo:
+                GetPlayersInfo(receivedMessage);
+                break;
+            case Messages.RoutesInfo:
+                GetRouteInfo(receivedMessage);
+                break;
+            case AI.TeamName:
+                
+                break;
+        }
     }
-
-    private void Start()
+    
+    public void GetPlayersInfo(string messageReceived)
     {
-        
+        Ai.MemoryService.ParserPlayersInfo(messageReceived);
+    }
+    
+    public void GetRouteInfo(string messageReceived)
+    {
+        Ai.MemoryService.ParserRouteInfo(messageReceived);
+    }
+    
+    public void GetTeamNumber(string messageReceived)
+    {
+        Ai.MemoryService.ParserTeamNumber(messageReceived);
     }
 }

@@ -6,6 +6,8 @@ namespace _24H_IUT_IA.AI;
 
 public class AI
 {
+    public const string TeamName = "Les alcooliques anonymes"; 
+    
     /// <summary>
     /// Service de communication.
     /// </summary>
