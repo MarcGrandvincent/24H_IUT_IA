@@ -31,8 +31,9 @@ public class ReactionService
                 GetRouteInfo(receivedMessage);
                 break;
             case AI.TeamName:
-                
+                this.Ai.MemoryService.TeamName = AI.TeamName;
                 break;
+            
         }
     }
     

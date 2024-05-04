@@ -10,11 +10,24 @@ public class DrunkenIA: DecisionMakingService
         
     }
 
-    public override string TakeNewAction(string lastReceivedMessage)
+    public override string? TakeNewAction(string lastReceivedMessage)
     {
-        if (this.Ai.MemoryService.TeamName == null)
+        if (this.Ai.MemoryService.TeamName is null)
+        {
             return AI.TeamName;
-
-        return Messages.EndGame;
+        }
+        else
+        {
+            if (lastReceivedMessage.Split('|')[0] == Messages.StartTurn)
+            {
+                if (this.Ai.MemoryService.Players.Count == 0)
+                    return Messages.PlayersInfo;
+                    
+                if (this.Ai.MemoryService.Roads.Count == 0) 
+                    return Messages.RoutesInfo;
+            }
+        }
+        
+        return null;
     }
 }
