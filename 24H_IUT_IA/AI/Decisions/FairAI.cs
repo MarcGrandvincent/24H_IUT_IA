@@ -9,7 +9,7 @@ public class FairAI(AI ai) : DecisionMakingService(ai)
     public int RecellScore { get; set; }
     public int BetrayScore { get; set; }
     public int AttackScore { get; set; }
-    
+
     public override string? TakeNewAction(string lastReceivedMessage)
     {
         //appel de la methode commune à tous les débuts de tour
@@ -53,41 +53,38 @@ public class FairAI(AI ai) : DecisionMakingService(ai)
     public int RecellGen()
     {
         //si notre liste de coffres Chests est vide on renvoie 0
-        if (this.Ai.MemoryService.GetOurPlayerInfo().Chests.Count == 0 || this.Ai.MemoryService.Turn == 0 || this.Ai.MemoryService.Turn == 120)
+        if (this.Ai.MemoryService.GetOurPlayerInfo().Chests.Count == 0 || this.Ai.MemoryService.Turn == 0 ||
+            this.Ai.MemoryService.Turn == 120)
             return 0;
-        
+
         // sinon si Chests.Count() = 5 (si on a le max de coffres) ou si c'est le dernier tour on renvoie 100
         if (this.Ai.MemoryService.GetOurPlayerInfo().Chests.Count == 5 || this.Ai.MemoryService.Turn == 100)
             return 100;
-        
+
         // sinon => le butin général * (1/2 + l'ordre du joueur/8)
         else
-            return (int) (this.Ai.MemoryService.GetOurPlayerInfo().LootValue * (0.5 + DefOurTurn() / 8));
+            return (int) (this.Ai.MemoryService.GetOurPlayerInfo().LootValue *
+                          (0.5 + this.Ai.MemoryService.GetOurPlayerInfo().Order / 8));
         return 0;
     }
-    
+
     /// <summary>
     /// détermine si on doit trahir un joueur dans un cas général
     /// </summary>
     public (int, int) BetrayGen()
     {
-        int ret = 0;
+        (int, int) ret = (0, 0);
         foreach (var player in this.Ai.MemoryService.Players)
         {
-            if (player.NumJoueur != this.Ai.MemoryService.GetOurPlayerInfo().NumJoueur
+            if (player.Order != this.Ai.MemoryService.GetOurPlayerInfo().Order)
             {
-                if (this.Ai.MemoryService.GetOurPlayerInfo().CanBeBetray(player))
-                {
-                    if (player.Life < this.Ai.MemoryService.GetOurPlayerInfo().Life)
-                        return (100, player.NumJoueur);
-                    else
-                        ret = 100;
-                }
+ 
             }
         }
+
         return (0, 0);
     }
-    
+
     /// <summary>
     /// détermine si on doit attaquer une route commerciale
     /// </summary>

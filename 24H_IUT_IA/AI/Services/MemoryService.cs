@@ -9,6 +9,7 @@ public class MemoryService
 {
     public bool PlayersInitialized { get; set; }
     public bool RoadInitialized { get; set; }
+
     /// <summary>
     ///     The name of the team.
     /// </summary>
@@ -80,5 +81,39 @@ public class MemoryService
     public void ParseTeamNumber(string messageReceived)
     {
         TeamNumber = int.Parse(messageReceived.Split("|")[1]);
+    }
+
+    /// <summary>
+    /// met à jour l'ordre de passage des joueurs
+    /// </summary>
+    public void UpdateOrder()
+    {
+        switch (Turn % 4)
+        {
+            case 1:
+                Players[0].Order = 1;
+                Players[1].Order = 2;
+                Players[2].Order = 3;
+                Players[3].Order = 4;
+                break;
+            case 2:
+                Players[0].Order = 2;
+                Players[1].Order = 3;
+                Players[2].Order = 4;
+                Players[3].Order = 1;
+                break;
+            case 3:
+                Players[0].Order = 3;
+                Players[1].Order = 4;
+                Players[2].Order = 1;
+                Players[3].Order = 2;
+                break;
+            case 0:
+                Players[0].Order = 4;
+                Players[1].Order = 1;
+                Players[2].Order = 2;
+                Players[3].Order = 3;
+                break;
+        }
     }
 }
