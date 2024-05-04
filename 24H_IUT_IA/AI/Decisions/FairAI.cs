@@ -83,6 +83,6 @@ public class FairAI(AI ai) : DecisionMakingService(ai)
     /// détermine si c'est notre tour
     /// </summary>
     /// <returns>renvoie l'ordre de passage de notre joueur </returns>
-    public double DefOurTurn() => this.Ai.MemoryService.Turn % this.Ai.MemoryService.TeamNumber;
+    private int DefOurTurn() => this.Ai.MemoryService.Turn % this.Ai.MemoryService.TeamNumber;
     
 }
