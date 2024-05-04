@@ -1,4 +1,6 @@
-﻿namespace _24H_IUT_IA.AI.Services;
+﻿using _24H_IUT_IA.Models;
+
+namespace _24H_IUT_IA.AI.Services;
 
 public class ReactionService
 {
@@ -19,5 +21,11 @@ public class ReactionService
     /// <param name="receivedMessage">Le dernier message reçu.</param>
     public void ReactToMessage(string sentMessage, string receivedMessage)
     {
+        
+    }
+
+    private void Start()
+    {
+        
     }
 }
