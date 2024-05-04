@@ -36,7 +36,7 @@ public class Player
     public int LootValue { get; private set; }
     
     public List<int> Chests { get; set; } = new List<int>();
-
+    
     /// <summary>
     /// Initializes a new instance of the Player class.
     /// </summary>

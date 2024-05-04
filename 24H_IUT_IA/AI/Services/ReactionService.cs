@@ -35,7 +35,7 @@ public class ReactionService
                 break;
         }
         
-        if (receivedMessage.Contains(Messages.StartTurn))
+        if (receivedMessage.Contains("Bonjour"))
             GetTeamNumber(receivedMessage);
     }
 
