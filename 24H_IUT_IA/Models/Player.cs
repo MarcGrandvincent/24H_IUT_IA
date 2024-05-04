@@ -23,7 +23,7 @@ public class Player
     /// <summary>
     /// Gets the current activity of the player.
     /// </summary>
-    public string Activity { get; private set; }
+    public ActivityEnum Activity { get; private set; }
 
     /// <summary>
     /// Gets the number of chests the player is currently carrying.
@@ -47,10 +47,23 @@ public class Player
         Score = int.Parse(playerData[0]);
         AttackValue = int.Parse(playerData[1]);
         Life = int.Parse(playerData[2]);
-        Activity = playerData[3];
+        Activity = GetActivity(playerData[3]);
         NumberOfChests = int.Parse(playerData[4]);
         LootValue = int.Parse(playerData[5]);
     }
     
-    
+    private ActivityEnum GetActivity(string activity)
+    {
+        return activity switch
+        {
+            "PILLER1" => ActivityEnum.PILLER1,
+            "PILLER2" => ActivityEnum.PILLER2,
+            "PILLER3" => ActivityEnum.PILLER3,
+            "PILLER4" => ActivityEnum.PILLER4,
+            "REPARATION" => ActivityEnum.REPARATION,
+            "RECELE" => ActivityEnum.RECELE,
+            "ATTAQUE" => ActivityEnum.ATTAQUE,
+            "AUCUNE" => ActivityEnum.AUCUNE
+        };
+    }
 }
