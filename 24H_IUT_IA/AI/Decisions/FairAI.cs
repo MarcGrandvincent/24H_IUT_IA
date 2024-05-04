@@ -46,7 +46,7 @@ public class FairAi(AI ai) : DecisionMakingService(ai)
                 ResellScore = ResellGen();
 
                 //test de tous les scores 
-                var score = ((int[]) [AttackScore[1], BetrayScore[1], ResellScore, RepareScore]).Max(); 
+                var score = ((int[]) [AttackScore[1], BetrayScore[1], ResellScore, RepareScore]).Max();
                 if (score == RepareScore)
                 {
                     Orders.Add(Messages.Repair);
@@ -65,7 +65,6 @@ public class FairAi(AI ai) : DecisionMakingService(ai)
                     for (var i = 0; i < numberUpgradeBetray; i++) Orders.Add(Messages.Recruit);
                     Orders.Add(Betray(playerToAttack));
                 }
-             
             }
             else
             {
@@ -132,17 +131,17 @@ public class FairAi(AI ai) : DecisionMakingService(ai)
 
                 if (EstTuable(player) && ret.Item2 <
                     player.Chests[0] + 2 * player.Chests[1] + 2000 +
-                    (player.AttackValue - 5) * 100 )
+                    (player.AttackValue - 5) * 100)
                 {
                     ret.Item1 = tmpNumjoueur;
                     ret.Item2 = player.Chests[0] + 2 * player.Chests[1] + 2000 +
-                                (player.AttackValue - 5) * 100 ;
+                                (player.AttackValue - 5) * 100;
                     ret.Item3 = tempUpgrade;
                 }
                 else if (ret.Item2 < player.Chests[0] + 2 * player.Chests[1])
                 {
                     ret.Item1 = tmpNumjoueur;
-                    ret.Item2 = player.Chests[0] + 2 * player.Chests[1] ;
+                    ret.Item2 = player.Chests[0] + 2 * player.Chests[1];
                     ret.Item3 = tempUpgrade;
                 }
             }
@@ -177,10 +176,7 @@ public class FairAi(AI ai) : DecisionMakingService(ai)
                         if (j.Activity == player.Activity)
                             if (j.Order < player.Order && j.Order != player.Order && j.Order < minOrder)
                                 minOrder = j.Order;
-                    if (player.Order == minOrder)
-                    {
-                        ret = true;
-                    }
+                    if (player.Order == minOrder) ret = true;
 
                     break;
             }
@@ -201,18 +197,23 @@ public class FairAi(AI ai) : DecisionMakingService(ai)
         var ret = (0, 0, 0);
         var ourAttackValue = Ai.MemoryService.GetOurPlayerInfo().AttackValue;
         foreach (var route in Ai.MemoryService.Roads)
-            if (route.AttackValue <= ourAttackValue + (Ai.MemoryService.GetOurPlayerInfo().Score / 500) * 5)
+            if (route.AttackValue <= ourAttackValue + Ai.MemoryService.GetOurPlayerInfo().Score / 500 * 5)
             {
-               int tempUpgrade = 0;
-                while (route.AttackValue > ourAttackValue)
-                {
-                    tempUpgrade++;
-                    ourAttackValue += 5;
-                }
+                var tempUpgrade = 0;
+                if (!(route.AttackValue < ourAttackValue))
+                    while (route.AttackValue > ourAttackValue)
+                    {
+                        tempUpgrade++;
+                        ourAttackValue += 5;
+                    }
 
-                if (ret.Item2 < MaxChest(Ai.MemoryService.Roads.IndexOf(route) + 1))
+
+                // si le mec que l'on attaque a une puissance supérieure à 40, tu divise le score de l'attaque par 2
+                var temp = MaxChest(Ai.MemoryService.Roads.IndexOf(route) + 1);
+
+                if (ret.Item2 < temp)
                 {
-                    ret.Item2 = MaxChest(Ai.MemoryService.Roads.IndexOf(route) + 1);
+                    ret.Item2 = temp;
                     ret.Item1 = Ai.MemoryService.Roads.IndexOf(route) + 1;
                     ret.Item3 = tempUpgrade;
                 }
