@@ -8,11 +8,11 @@ public abstract class DecisionMakingService
     /// L'IA en cours.
     /// </summary>
     public AI Ai { get; set; }
-    
+
     /// <summary>
     /// Détermine si c'est notre tour.
     /// </summary>
-    private bool ourTurn = false;
+    public bool OurTurn { get; set; } = false;
 
     
     protected DecisionMakingService(AI ai)
@@ -33,7 +33,7 @@ public abstract class DecisionMakingService
     /// <summary>
     /// fonction commune que l'on doit lancer à tous les debuts de tour
     /// </summary>
-    public string startTurn(string lastReceivedMessage)
+    public string? StartTurn(string lastReceivedMessage)
     {
         if (this.Ai.MemoryService.TeamName is null)
         {
@@ -42,10 +42,10 @@ public abstract class DecisionMakingService
         else
             // si c'est notre tour
         {
-            if (lastReceivedMessage.Split('|')[0] == Messages.StartTurn && !ourTurn)
-                ourTurn = true;
+            if (lastReceivedMessage.Split('|')[0] == Messages.StartTurn && !OurTurn)
+                OurTurn = true;
 
-            if (!ourTurn) return null;
+            if (!OurTurn) return null;
 
             // si on a pas encore les infos sur les joueurs ou les routes
             if (this.Ai.MemoryService.Players.Count == 0)
@@ -54,9 +54,8 @@ public abstract class DecisionMakingService
             if (this.Ai.MemoryService.Roads.Count == 0)
                 return Messages.RoutesInfo;
 
-            // maintena nt qu'on a les infos on va commencer la vraie drunken ia
+            // si on a les infos sur les joueurs et les routes
+            return null;
         }
-
-        throw new InvalidOperationException();
     }
 }

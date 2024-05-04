@@ -18,4 +18,19 @@ public static class Messages
     public const string RoutesInfo = "ROUTES";
     public const string Ok = "OK";
     public const string NotOk = "NOK";
+    
+    public static string[] ActionsDrunkenIa = new []
+    {
+        Repair,
+        Fence,
+        Recruit,
+        $"{Pillage}|1",
+        $"{Pillage}|2",
+        $"{Pillage}|3",
+        $"{Pillage}|4",
+        $"{Betray}|1",
+        $"{Betray}|2",
+        $"{Betray}|3",
+        $"{Betray}|4"
+    };
 }

@@ -7,28 +7,26 @@ public class DrunkenIA(AI ai) : DecisionMakingService(ai)
 {
     public override string? TakeNewAction(string lastReceivedMessage)
     {
-        if (this.Ai.MemoryService.TeamName is null)
-            return AI.TeamName;
-        
-        WorkForAction(lastReceivedMessage);
-
-        return null;
+        //appel de la methode commune à tous les débuts de tour
+        if (StartTurn(lastReceivedMessage) is not null || !OurTurn)
+            return StartTurn(lastReceivedMessage);
+        else 
+        {
+            //debut de drunken ai 
+            return WorkForAction(lastReceivedMessage);  
+        }
     }
 
 
+    /// <summary>
+    ///     toute la logique de drunken ai
+    /// </summary>
+    /// <param name="lastReceivedMessage">dernier message reçu</param>
+    /// <returns></returns>
     private string WorkForAction(string lastReceivedMessage)
     {
-        if (lastReceivedMessage.Split('|')[0] == Messages.StartTurn)
-        {
-            // Récupère les informations des joueurs.
-            if (this.Ai.MemoryService.Players.Count == 0)
-                return Messages.PlayersInfo;
-                    
-            // Récupère les informations des routes.
-            if (this.Ai.MemoryService.Roads.Count == 0) 
-                return Messages.RoutesInfo;
-        }
-        
-        return "ERROR";
+        var random = new Random();
+        var index = random.Next(Messages.ActionsDrunkenIa.Length);
+        return Messages.ActionsDrunkenIa[index];
     }
 }
