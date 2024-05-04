@@ -49,9 +49,16 @@ public class FairAI(AI ai) : DecisionMakingService(ai)
     public int RecellGen()
     {
         //si notre liste de coffres Chests est vide on renvoie 0
+        if (this.Ai.MemoryService.GetOurPlayerInfo().Chests.Count == 0 || this.Ai.MemoryService.Turn == 0 || this.Ai.MemoryService.Turn == 120)
+            return 0;
+        
         // sinon si Chests.Count() = 5 (si on a le max de coffres) ou si c'est le dernier tour on renvoie 100
-        // sauf si dans le dernier tour on a 0 coffres on renvoie 0
+        if (this.Ai.MemoryService.GetOurPlayerInfo().Chests.Count == 5 || this.Ai.MemoryService.Turn == 100)
+            return 100;
+        
         // sinon => le butin général * (1/2 + l'ordre du joueur/8)
+        else
+            return (int) (this.Ai.MemoryService.GetOurPlayerInfo().LootValue * (0.5 + DefOurTurn() / 8));
         return 0;
     }
     
@@ -71,4 +78,11 @@ public class FairAI(AI ai) : DecisionMakingService(ai)
     {
         return 0;
     }
+    
+    /// <summary>
+    /// détermine si c'est notre tour
+    /// </summary>
+    /// <returns>renvoie l'ordre de passage de notre joueur </returns>
+    public double DefOurTurn() => this.Ai.MemoryService.Turn % this.Ai.MemoryService.TeamNumber;
+    
 }

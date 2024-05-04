@@ -3,37 +3,56 @@
 namespace _24H_IUT_IA.AI.Services;
 
 /// <summary>
-/// la ou on va stocker tous nos objets de données 
+///     MemoryService is a class that stores all data objects.
 /// </summary>
 public class MemoryService
 {
-    public bool PlayersInitialized { get; set; }
+    /// <summary>
+    ///     The name of the team.
+    /// </summary>
     public string? TeamName { get; set; } = null;
 
-    private int _teamNumber = 0;
-    public List<Player> Players { get; set; } = [new(), new(), new(), new()];
-    public List<Road> Roads { get; set; } = new List<Road>();
+    /// <summary>
+    ///     The number of the team.
+    /// </summary>
+    public int TeamNumber { get; set; }
 
+    /// <summary>
+    ///     A list of players.
+    /// </summary>
+    public List<Player> Players { get; set; } = new();
+
+    /// <summary>
+    ///     A list of roads.
+    /// </summary>
+    public List<Road> Roads { get; set; } = new();
+
+    /// <summary>
+    ///     The current turn.
+    /// </summary>
     public int Turn { get; set; } = 0;
 
+    /// <summary>
+    ///     Returns the information of our player.
+    /// </summary>
     public Player GetOurPlayerInfo()
     {
-        return Players[_teamNumber - 1];
+        return Players[TeamNumber - 1];
     }
 
+    /// <summary>
+    ///     Parses the players's information from the received message.
+    /// </summary>
     public void ParserPlayersInfo(string messageReceived)
     {
-        PlayersInitialized = true;
-        
         var players = messageReceived.Split("|");
 
-        for (var index = 0; index < players.Length; index++)
-        {
-            var player = players[index];
-            Players[index].MapPlayerData(player);
-        }
+        foreach (var player in players) Players.Add(new Player(player));
     }
 
+    /// <summary>
+    ///     Parses the route information from the received message.
+    /// </summary>
     public void ParseRouteInfo(string messageReceived)
     {
         var roads = messageReceived.Split("|");
@@ -41,18 +60,22 @@ public class MemoryService
         Road? lastRoad = null;
 
         foreach (var road in roads)
-        {
             if (!(road is "True" or "False"))
             {
                 lastRoad = new Road(road);
                 Roads.Add(lastRoad);
             }
-            else if (lastRoad != null) lastRoad.IsMonsterPresent = road == "True";
-        }
+            else if (lastRoad != null)
+            {
+                lastRoad.IsMonsterPresent = road == "True";
+            }
     }
 
+    /// <summary>
+    ///     Parses the team number from the received message.
+    /// </summary>
     public void ParseTeamNumber(string messageReceived)
     {
-        _teamNumber = int.Parse(messageReceived.Split("|")[1]);
+        TeamNumber = int.Parse(messageReceived.Split("|")[1]);
     }
 }

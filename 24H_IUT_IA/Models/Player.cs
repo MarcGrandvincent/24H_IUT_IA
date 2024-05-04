@@ -35,10 +35,22 @@ public class Player
     /// </summary>
     public int LootValue { get; private set; }
     
-    /// <summary>
-    /// Les coffres d'un joueur 
-    /// </summary>
     public List<int> Chests { get; set; } = new List<int>();
+    
+    /// <summary>
+    /// Initializes a new instance of the Player class.
+    /// </summary>
+    /// <param name="data">A semicolon-separated string containing the player's data.</param>
+    public Player(string data)
+    {
+        var playerData = data.Split(';');
+        Score = int.Parse(playerData[0]);
+        AttackValue = int.Parse(playerData[1]);
+        Life = int.Parse(playerData[2]);
+        Activity = GetActivity(playerData[3]);
+        NumberOfChests = int.Parse(playerData[4]);
+        LootValue = int.Parse(playerData[5]);
+    }
     
     private ActivityEnum GetActivity(string activity)
     {
@@ -53,33 +65,5 @@ public class Player
             "ATTAQUE" => ActivityEnum.ATTAQUE,
             "AUCUNE" => ActivityEnum.AUCUNE
         };
-    }
-
-    public void MapPlayerData(string data)
-    {
-        var playerData = data.Split(';');
-        Score = int.Parse(playerData[0]);
-        AttackValue = int.Parse(playerData[1]); 
-        Life = int.Parse(playerData[2]);
-        Activity = GetActivity(playerData[3]);
-        var newNumberOfChests = int.Parse(playerData[4]);
-        var newLootValue = int.Parse(playerData[5]);
-
-        if (newNumberOfChests == 0)
-        {
-            NumberOfChests = newNumberOfChests;
-            Chests.Clear();
-        }
-        
-        if (newNumberOfChests != NumberOfChests && newNumberOfChests != 0)
-        {
-            if (Chests.Count == 0)
-                Chests.Add(newLootValue);
-            else 
-                Chests.Add(newLootValue - LootValue);
-        }
-
-        NumberOfChests = newNumberOfChests;
-        LootValue = newLootValue;
     }
 }
