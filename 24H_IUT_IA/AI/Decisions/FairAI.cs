@@ -29,6 +29,14 @@ public class FairAi(AI ai) : DecisionMakingService(ai)
     public override string? WorkForAction(string lastReceivedMessage)
     {
         while (lastReceivedMessage != "OK")
+        {
+            if (lastReceivedMessage.Contains("NOK"))
+            {
+                var random = new Random();
+                var index = random.Next(Messages.ActionsDrunkenIa.Length);
+                return Messages.ActionsDrunkenIa[index];
+            }
+            
             if (Orders.Count == 0)
             {
                 //remplis toutes les auto property avec les scores des actions
@@ -72,7 +80,7 @@ public class FairAi(AI ai) : DecisionMakingService(ai)
                 Orders.Remove(response);
                 return response;
             }
-
+        }
         OurTurn = false;
         return null;
     }
