@@ -17,8 +17,6 @@ public class MemoryService
 
     public Player GetOurPlayerInfo()
     {
-        Console.WriteLine(Players.Count);
-        Console.WriteLine(_teamNumber);
         return Players[_teamNumber - 1];
     }
     
