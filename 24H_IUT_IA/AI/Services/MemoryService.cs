@@ -47,6 +47,7 @@ public class MemoryService
     /// </summary>
     public void ParserPlayersInfo(string messageReceived)
     {
+        PlayersInitialized = true;
         var players = messageReceived.Split("|");
 
         foreach (var player in players) Players.Add(new Player(player));
