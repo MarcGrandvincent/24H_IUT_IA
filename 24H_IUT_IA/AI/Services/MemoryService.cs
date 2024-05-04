@@ -3,10 +3,12 @@
 namespace _24H_IUT_IA.AI.Services;
 
 /// <summary>
-///     MemoryService is a class that stores all data objects.
+/// la ou on va stocker tous nos objets de données 
 /// </summary>
 public class MemoryService
 {
+    public bool PlayersInitialized { get; set; }
+    public bool RoadInitialized { get; set; }
     /// <summary>
     ///     The name of the team.
     /// </summary>
@@ -55,6 +57,7 @@ public class MemoryService
     /// </summary>
     public void ParseRouteInfo(string messageReceived)
     {
+        RoadInitialized = true;
         var roads = messageReceived.Split("|");
 
         Road? lastRoad = null;
