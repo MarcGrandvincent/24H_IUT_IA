@@ -396,3 +396,10 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+.idea/.idea.24H_IUT_IA/.idea/vcs.xml
+.idea/.idea.24H_IUT_IA/.idea/encodings.xml
+.idea/.idea.24H_IUT_IA/.idea/indexLayout.xml
+.idea/.idea.24H_IUT_IA/.idea/copilot/chatSessions/blobs/version
+.idea/.idea.24H_IUT_IA/.idea/copilot/chatSessions/00000000000.xd
+.idea/.idea.24H_IUT_IA/.idea/projectSettingsUpdater.xml
+/.idea/.idea.24H_IUT_IA/.idea
