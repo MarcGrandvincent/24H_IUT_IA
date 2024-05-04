@@ -8,6 +8,7 @@ namespace _24H_IUT_IA.AI.Services;
 public class MemoryService
 {
     public bool PlayersInitialized { get; set; }
+    public bool RoadInitialized { get; set; }
     public string? TeamName { get; set; } = null;
 
     private int _teamNumber = 0;
@@ -36,6 +37,7 @@ public class MemoryService
 
     public void ParseRouteInfo(string messageReceived)
     {
+        RoadInitialized = true;
         var roads = messageReceived.Split("|");
 
         Road? lastRoad = null;
