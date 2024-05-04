@@ -91,8 +91,6 @@ public abstract class DecisionMakingService
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the road number is not between 1 and 4.</exception>
     public string Pillage(int numRoad)
     {
-        if (numRoad < 1 || numRoad > 4)
-            throw new ArgumentOutOfRangeException();
         return Messages.Pillage + "|" + numRoad;
     }
 }

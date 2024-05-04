@@ -13,7 +13,7 @@ public class FairAi(AI ai) : DecisionMakingService(ai)
     public int[] AttackScore { get; set; } = [0, 0, 0];
 
     //tuple qui stock le score d'une trahison et le joueur à trahir
-    public int[] BetrayScore { get; set; } = [0, 0];
+    public int[] BetrayScore { get; set; } = [0, 0, 0];
 
     //int qui stock le score de réparer
     public int RepareScore { get; set; }
@@ -22,25 +22,11 @@ public class FairAi(AI ai) : DecisionMakingService(ai)
     public int ResellScore;
 
     /// <summary>
-    ///     Determines the next action to take based on the last received message.
-    /// </summary>
-    /// <param name="lastReceivedMessage">The last message received from the game server.</param>
-    /// <returns>The action to take as a string, or null if no action should be taken.</returns>
-    public override string? TakeNewAction(string lastReceivedMessage)
-    {
-        // Call the common method for all turn starts
-        if (StartTurn(lastReceivedMessage) is not null || !OurTurn)
-            return StartTurn(lastReceivedMessage);
-        // Start of drunken ai 
-        return WorkForAction(lastReceivedMessage);
-    }
-
-    /// <summary>
     ///     Logic for the Fair AI.
     /// </summary>
     /// <param name="lastReceivedMessage">The last message received from the game server.</param>
     /// <returns>The action to take as a string, or null if no action should be taken.</returns>
-    private string? WorkForAction(string lastReceivedMessage)
+    public override string? WorkForAction(string lastReceivedMessage)
     {
         while (lastReceivedMessage != "OK")
             if (Orders.Count == 0)
@@ -60,9 +46,16 @@ public class FairAi(AI ai) : DecisionMakingService(ai)
                 ResellScore = ResellGen();
 
                 //test de tous les scores 
-                var score = ((int[]) [AttackScore[1], BetrayScore[1], ResellScore, RepareScore]).Max();
-
-                if (score == scoreAttack)
+                var score = ((int[]) [AttackScore[1], BetrayScore[1], ResellScore, RepareScore]).Max(); 
+                if (score == RepareScore)
+                {
+                    Orders.Add(Messages.Repair);
+                }
+                else if (score == ResellScore)
+                {
+                    Orders.Add(Messages.Fence);
+                }
+                else if (score == scoreAttack)
                 {
                     for (var i = 0; i < numberUpdgradeAttack; i++) Orders.Add(Messages.Recruit);
                     Orders.Add(Pillage(road));
@@ -72,14 +65,7 @@ public class FairAi(AI ai) : DecisionMakingService(ai)
                     for (var i = 0; i < numberUpgradeBetray; i++) Orders.Add(Messages.Recruit);
                     Orders.Add(Betray(playerToAttack));
                 }
-                else if (score == RepareScore)
-                {
-                    Orders.Add(Messages.Repair);
-                }
-                else if (score == ResellScore)
-                {
-                    Orders.Add(Messages.Fence);
-                }
+             
             }
             else
             {
@@ -101,7 +87,7 @@ public class FairAi(AI ai) : DecisionMakingService(ai)
     {
         if (Ai.MemoryService.GetOurPlayerInfo().Life > 3 || Ai.MemoryService.Turn == 120)
             return 0;
-        return -1;
+        return int.MaxValue - 1;
         //si on a plus de 3(ou 2(à tester)) pv ou si c'est le detrnier tour on renvoie 0 sinon on renvoie 100
         return 0;
     }
@@ -113,18 +99,16 @@ public class FairAi(AI ai) : DecisionMakingService(ai)
     public int ResellGen()
     {
         //si notre liste de coffres Chests est vide on renvoie 0
-        if (Ai.MemoryService.GetOurPlayerInfo().Chests.Count == 0 || Ai.MemoryService.Turn == 0 ||
-            Ai.MemoryService.Turn == 120)
+        if (Ai.MemoryService.GetOurPlayerInfo().Chests.Count == 0)
             return 0;
 
         // sinon si Chests.Count() = 5 (si on a le max de coffres) ou si c'est le dernier tour on renvoie 100
         if (Ai.MemoryService.GetOurPlayerInfo().Chests.Count == 5 || Ai.MemoryService.Turn == 120)
-            return -2;
+            return int.MaxValue;
 
         // sinon => le butin général * (1/2 + l'ordre du joueur/8)
         return (int)(Ai.MemoryService.GetOurPlayerInfo().LootValue *
                      (0.5 + Ai.MemoryService.GetOurPlayerInfo().Order / 8));
-        return 0;
     }
 
     /// <summary>
@@ -148,17 +132,17 @@ public class FairAi(AI ai) : DecisionMakingService(ai)
 
                 if (EstTuable(player) && ret.Item2 <
                     player.Chests[0] + 2 * player.Chests[1] + 2000 +
-                    (player.AttackValue - 5) * 100)
+                    (player.AttackValue - 5) * 100 )
                 {
                     ret.Item1 = tmpNumjoueur;
                     ret.Item2 = player.Chests[0] + 2 * player.Chests[1] + 2000 +
-                                (player.AttackValue - 5) * 100;
+                                (player.AttackValue - 5) * 100 ;
                     ret.Item3 = tempUpgrade;
                 }
                 else if (ret.Item2 < player.Chests[0] + 2 * player.Chests[1])
                 {
                     ret.Item1 = tmpNumjoueur;
-                    ret.Item2 = player.Chests[0] + 2 * player.Chests[1];
+                    ret.Item2 = player.Chests[0] + 2 * player.Chests[1] ;
                     ret.Item3 = tempUpgrade;
                 }
             }
@@ -217,10 +201,9 @@ public class FairAi(AI ai) : DecisionMakingService(ai)
         var ret = (0, 0, 0);
         var ourAttackValue = Ai.MemoryService.GetOurPlayerInfo().AttackValue;
         foreach (var route in Ai.MemoryService.Roads)
-            if (route.AttackValue <= ourAttackValue +
-                Ai.MemoryService.GetOurPlayerInfo().Score % 500 * 5)
+            if (route.AttackValue <= ourAttackValue + (Ai.MemoryService.GetOurPlayerInfo().Score / 500) * 5)
             {
-                int tempUpgrade = 0;
+               int tempUpgrade = 0;
                 while (route.AttackValue > ourAttackValue)
                 {
                     tempUpgrade++;
@@ -246,29 +229,29 @@ public class FairAi(AI ai) : DecisionMakingService(ai)
     /// <returns>The maximum chest value for the route.</returns>
     public int MaxChest(int nbRoad)
     {
-        var c = 0;
-        var var = 0;
+        var counter = 0;
+        var res = 0;
         foreach (var joueur in Ai.MemoryService.Players)
             if (joueur.Activity.ToString() == $"PILLER{nbRoad}")
-                c++;
+                counter++;
 
-        if (c < 3)
-            switch (c + 1)
+        if (counter < 3)
+            switch (counter + 1)
             {
                 case 1:
-                    var = Ai.MemoryService.Roads[nbRoad].ChestValue1;
+                    res = Ai.MemoryService.Roads[nbRoad - 1].ChestValue1;
                     break;
                 case 2:
-                    var = Ai.MemoryService.Roads[nbRoad].ChestValue2;
+                    res = Ai.MemoryService.Roads[nbRoad - 1].ChestValue2;
                     break;
                 case 3:
-                    var = Ai.MemoryService.Roads[nbRoad].ChestValue3;
+                    res = Ai.MemoryService.Roads[nbRoad - 1].ChestValue3;
                     break;
             }
 
-        if (Ai.MemoryService.Roads[nbRoad].IsMonsterPresent)
-            var = (int)(var * 0.6);
+        if (Ai.MemoryService.Roads[nbRoad - 1].IsMonsterPresent)
+            res = (int)(res * 0.4);
 
-        return var;
+        return res;
     }
 }
