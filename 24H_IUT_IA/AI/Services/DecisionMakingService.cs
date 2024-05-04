@@ -11,22 +11,13 @@ public abstract class DecisionMakingService
     {
         Ai = ai;
     }
-
-    /// <summary>
-    /// first 
-    /// </summary>
-    public void Start()
-    {
-        
-    }
-
     
     /// <summary>
     /// Determine une action à prendre.
     /// </summary>
     /// <param name="lastReceivedMessage"></param>
     /// <returns></returns>
-    public virtual string TakeNewAction(string lastReceivedMessage)
+    public virtual string? TakeNewAction(string lastReceivedMessage)
     {
         throw new NotImplementedException();
     }
