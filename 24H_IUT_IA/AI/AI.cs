@@ -6,7 +6,7 @@ namespace _24H_IUT_IA.AI;
 
 public class AI
 {
-    public const string TeamName = "1"; 
+    public const string TeamName = "1P5F"; 
     
     /// <summary>
     /// Service de communication.
