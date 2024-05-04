@@ -23,7 +23,7 @@ public abstract class DecisionMakingService
     /// <summary>
     /// Determine une action à prendre.
     /// </summary>
-    /// <param name="lastReceivedMessage"></param>
+    /// <param name="lastReceivedMessage"> dernier message reçu</param>
     /// <returns></returns>
     public virtual string? TakeNewAction(string lastReceivedMessage)
     {
