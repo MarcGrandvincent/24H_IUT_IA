@@ -3,26 +3,32 @@ using _24H_IUT_IA.Models;
 
 namespace _24H_IUT_IA.AI.Decisions;
 
-public class DrunkenIA: DecisionMakingService
+public class DrunkenIA(AI ai) : DecisionMakingService(ai)
 {
-    
-    public DrunkenIA(AI ai) : base(ai)
-    {
-        
-    }
-    
-    /// <summary>
-    /// Determine une action à prendre.
-    /// </summary>
-    /// <param name="lastReceivedMessage"> last message received </param>
-    /// <returns></returns>
     public override string? TakeNewAction(string lastReceivedMessage)
     {
-        startTurn(lastReceivedMessage);
+        if (this.Ai.MemoryService.TeamName is null)
+            return AI.TeamName;
         
-        //maintenant que l'on a la méthode startTurne qui est commune a tous les tours on va pouvoir commencer la drunken ia
-        
-        
+        WorkForAction(lastReceivedMessage);
+
         return null;
+    }
+
+
+    private string WorkForAction(string lastReceivedMessage)
+    {
+        if (lastReceivedMessage.Split('|')[0] == Messages.StartTurn)
+        {
+            // Récupère les informations des joueurs.
+            if (this.Ai.MemoryService.Players.Count == 0)
+                return Messages.PlayersInfo;
+                    
+            // Récupère les informations des routes.
+            if (this.Ai.MemoryService.Roads.Count == 0) 
+                return Messages.RoutesInfo;
+        }
+        
+        return "ERROR";
     }
 }
