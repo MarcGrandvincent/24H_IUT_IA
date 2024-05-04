@@ -30,6 +30,13 @@ public class Player
     /// </summary>
     public int NumberOfChests { get; private set; }
 
+    public bool CanBeBetray(Player player)
+    {
+        if ((this.AttackValue <= player.AttackValue) && this.NumJoueur < player.NumJoueur)
+            if (this.Activity == ActivityEnum.PILLER1 || this.Activity == ActivityEnum.PILLER2 || this.Activity == ActivityEnum.PILLER3 || this.Activity == ActivityEnum.PILLER4)
+                return true;
+    }
+    
     /// <summary>
     /// Gets the total value of the loot the player is currently carrying.
     /// </summary>

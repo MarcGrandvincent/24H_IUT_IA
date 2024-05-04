@@ -38,6 +38,10 @@ public class FairAI(AI ai) : DecisionMakingService(ai)
     /// <returns></returns>
     public int RepareGen()
     {
+        if (this.Ai.MemoryService.GetOurPlayerInfo().Life > 3 || this.Ai.MemoryService.Turn == 120)
+            return 0;
+        else
+            return 100;
         //si on a plus de 3(ou 2(à tester)) pv ou si c'est le detrnier tour on renvoie 0 sinon on renvoie 100
         return 0;
     }
@@ -65,10 +69,23 @@ public class FairAI(AI ai) : DecisionMakingService(ai)
     /// <summary>
     /// détermine si on doit trahir un joueur dans un cas général
     /// </summary>
-    public int BetrayGen()
+    public (int, int) BetrayGen()
     {
-        //
-        return 0;
+        int ret = 0;
+        foreach (var player in this.Ai.MemoryService.Players)
+        {
+            if (player.NumJoueur != this.Ai.MemoryService.GetOurPlayerInfo().NumJoueur
+            {
+                if (this.Ai.MemoryService.GetOurPlayerInfo().CanBeBetray(player))
+                {
+                    if (player.Life < this.Ai.MemoryService.GetOurPlayerInfo().Life)
+                        return (100, player.NumJoueur);
+                    else
+                        ret = 100;
+                }
+            }
+        }
+        return (0, 0);
     }
     
     /// <summary>
