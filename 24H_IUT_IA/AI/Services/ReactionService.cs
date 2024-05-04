@@ -20,7 +20,7 @@ public class ReactionService
     /// </summary>
     /// <param name="sentMessage">Le dernier message envoyé.</param>
     /// <param name="receivedMessage">Le dernier message reçu.</param>
-    public void ReactToMessage(string sentMessage, string receivedMessage)
+    public void ReactToMessage(string? sentMessage, string receivedMessage)
     {
         switch (sentMessage)
         {
@@ -33,22 +33,24 @@ public class ReactionService
             case AI.TeamName:
                 this.Ai.MemoryService.TeamName = AI.TeamName;
                 break;
-            
         }
+        
+        if (receivedMessage.Contains(Messages.StartTurn))
+            GetTeamNumber(receivedMessage);
     }
-    
-    public void GetPlayersInfo(string messageReceived)
+
+    private void GetPlayersInfo(string receivedMessage)
     {
-        Ai.MemoryService.ParserPlayersInfo(messageReceived);
+        Ai.MemoryService.ParserPlayersInfo(receivedMessage);
     }
-    
-    public void GetRouteInfo(string messageReceived)
+
+    private void GetRouteInfo(string receivedMessage)
     {
-        Ai.MemoryService.ParserRouteInfo(messageReceived);
+        Ai.MemoryService.ParseRouteInfo(receivedMessage);
     }
-    
-    public void GetTeamNumber(string messageReceived)
+
+    private void GetTeamNumber(string receivedMessage)
     {
-        Ai.MemoryService.ParserTeamNumber(messageReceived);
+        Ai.MemoryService.ParseTeamNumber(receivedMessage);
     }
 }
