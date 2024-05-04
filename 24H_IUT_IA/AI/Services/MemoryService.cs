@@ -65,6 +65,7 @@ public class MemoryService
     public void ParseRouteInfo(string messageReceived)
     {
         RoadInitialized = true;
+        Roads.Clear();
         var roads = messageReceived.Split("|");
 
         Road? lastRoad = null;

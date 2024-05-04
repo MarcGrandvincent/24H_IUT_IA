@@ -38,7 +38,7 @@ public class AI
         CommunicationService = new TcpClientService(1234);
         MemoryService = new MemoryService();
         ReactionService = new ReactionService(this);
-        DecisionMakingService = new DrunkenIA(this);
+        DecisionMakingService = new FairAi(this);
     }
     
     /// <summary>
