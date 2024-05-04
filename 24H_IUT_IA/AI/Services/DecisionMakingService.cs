@@ -25,7 +25,36 @@ public abstract class DecisionMakingService
     /// </summary>
     /// <param name="lastReceivedMessage"> dernier message reçu</param>
     /// <returns></returns>
-    public virtual string? TakeNewAction(string lastReceivedMessage)
+    public string? TakeNewAction(string lastReceivedMessage)
+    {
+        if (this.Ai.MemoryService.TeamName is null)
+        {
+            return AI.TeamName;
+        }
+        else
+        {
+            if (lastReceivedMessage.Contains(Messages.StartTurn) && !OurTurn)
+            {
+                OurTurn = true;
+                this.Ai.MemoryService.RoadInitialized = false;
+                this.Ai.MemoryService.PlayersInitialized = false;
+            }
+                
+            if (!OurTurn) return null;
+
+            // si on a pas encore les infos sur les joueurs ou les routes
+            if (!this.Ai.MemoryService.PlayersInitialized)
+                return Messages.PlayersInfo;
+
+            if (!this.Ai.MemoryService.RoadInitialized)
+                return Messages.RoutesInfo;
+            
+            //debut de drunken ai 
+            return WorkForAction(lastReceivedMessage);  
+        }
+    }
+
+    public virtual string? WorkForAction(string lastReceivedMessage)
     {
         throw new NotImplementedException();
     }
@@ -35,28 +64,8 @@ public abstract class DecisionMakingService
     /// </summary>
     public string? StartTurn(string lastReceivedMessage)
     {
-        if (this.Ai.MemoryService.TeamName is null)
-        {
-            return AI.TeamName;
-        }
-        else
-            // si c'est notre tour
-        {
-            if (lastReceivedMessage.Split('|')[0] == Messages.StartTurn && !OurTurn)
-                OurTurn = true;
-
-            if (!OurTurn) return null;
-
-            // si on a pas encore les infos sur les joueurs ou les routes
-            if (this.Ai.MemoryService.Players.Count == 0)
-                return Messages.PlayersInfo;
-
-            if (this.Ai.MemoryService.Roads.Count == 0)
-                return Messages.RoutesInfo;
-
             // si on a les infos sur les joueurs et les routes
             return null;
-        }
     }
 
 
