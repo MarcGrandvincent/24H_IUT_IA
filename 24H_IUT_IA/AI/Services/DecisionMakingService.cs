@@ -10,6 +10,15 @@ public abstract class DecisionMakingService
     protected DecisionMakingService(AI ai)
     {
         Ai = ai;
+
+    }
+
+    /// <summary>
+    /// first 
+    /// </summary>
+    public void Start()
+    {
+        
     }
 
     
