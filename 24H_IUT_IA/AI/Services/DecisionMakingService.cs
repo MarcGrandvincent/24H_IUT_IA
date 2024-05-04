@@ -59,4 +59,31 @@ public abstract class DecisionMakingService
 
         throw new InvalidOperationException();
     }
+
+
+    /// <summary>
+    /// Betrays a player.
+    /// </summary>
+    /// <param name="numJoueur">The number of the player to betray. Must be between 1 and 4.</param>
+    /// <returns>A string message indicating the betrayal action and the player number.</returns>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when the player number is not between 1 and 4.</exception>
+    public string Betray(int numJoueur)
+    {
+        if (numJoueur < 1 || numJoueur > 4)
+            throw new ArgumentOutOfRangeException();
+        return Messages.Betray + "|" + numJoueur;
+    }
+
+    /// <summary>
+    /// Pillages a road.
+    /// </summary>
+    /// <param name="numRoad">The number of the road to pillage. Must be between 1 and 4.</param>
+    /// <returns>A string message indicating the pillage action and the road number.</returns>
+    /// <exception cref="ArgumentOutOfRangeException">Thrown when the road number is not between 1 and 4.</exception>
+    public string Pillage(int numRoad)
+    {
+        if (numRoad < 1 || numRoad > 4)
+            throw new ArgumentOutOfRangeException();
+        return Messages.Pillage + "|" + numRoad;
+    }
 }
