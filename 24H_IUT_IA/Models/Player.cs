@@ -89,5 +89,6 @@ public class Player
 
         NumberOfChests = newNumberOfChests;
         LootValue = newLootValue;
+        Chests = Chests.OrderDescending().ToList();
     }
 }
