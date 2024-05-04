@@ -38,15 +38,14 @@ public class Road
     /// <summary>
     /// Initializes a new instance of the <see cref="Road"/> class.
     /// </summary>
-    /// <param name="reciveMessage">The message received.</param>
-    public Road(string reciveMessage)
+    /// <param name="receivedMessage">The message received.</param>
+    public Road(string receivedMessage)
     {
-        string[] road = reciveMessage.Split(";");
+        var road = receivedMessage.Split(";");
         LevelBoat = int.Parse(road[0]);
         AttackValue = int.Parse(road[1]);
         ChestValue1 = int.Parse(road[2]);
         ChestValue2 = int.Parse(road[3]);
         ChestValue3 = int.Parse(road[4]);
-        IsMonsterPresent = road[5] == "1";
     }
 }

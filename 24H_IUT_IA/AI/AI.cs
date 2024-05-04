@@ -6,7 +6,7 @@ namespace _24H_IUT_IA.AI;
 
 public class AI
 {
-    public const string TeamName = "Les alcooliques anonymes"; 
+    public const string TeamName = "1"; 
     
     /// <summary>
     /// Service de communication.
@@ -59,7 +59,8 @@ public class AI
 
             sentMessage = DecisionMakingService.TakeNewAction(receivedMessage);
 
-            CommunicationService.SendMessage(sentMessage);
+            if (sentMessage is not null)
+                CommunicationService.SendMessage(sentMessage);
         }
         
         CommunicationService.GetMessage();
