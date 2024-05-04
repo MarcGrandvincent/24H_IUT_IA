@@ -23,9 +23,9 @@ public class MemoryService
     /// <summary>
     ///     A list of players.
     /// </summary>
-    public List<Player> Players { get; set; } = new();
+    public List<Player> Players { get; set; } = [new Player(), new Player(), new Player(), new Player()];
 
-    /// <summary>
+/// <summary>
     ///     A list of roads.
     /// </summary>
     public List<Road> Roads { get; set; } = new();
@@ -51,7 +51,12 @@ public class MemoryService
         PlayersInitialized = true;
         var players = messageReceived.Split("|");
 
-        foreach (var player in players) Players.Add(new Player(player));
+        for (var index = 0; index < players.Length; index++)
+        {
+            var player = players[index];
+            Players[index].MapPlayerData(player);
+        }
+        
     }
 
     /// <summary>
