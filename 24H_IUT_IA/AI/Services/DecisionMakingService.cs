@@ -14,6 +14,8 @@ public abstract class DecisionMakingService
     /// </summary>
     public bool OurTurn { get; set; } = false;
 
+    public List<string> Orders = new List<string>();
+    
     
     protected DecisionMakingService(AI ai)
     {
@@ -35,21 +37,20 @@ public abstract class DecisionMakingService
         {
             if (lastReceivedMessage.Contains(Messages.StartTurn) && !OurTurn)
             {
+                Orders.Clear();
                 OurTurn = true;
                 this.Ai.MemoryService.RoadInitialized = false;
                 this.Ai.MemoryService.PlayersInitialized = false;
             }
                 
             if (!OurTurn) return null;
-
-            // si on a pas encore les infos sur les joueurs ou les routes
+            
             if (!this.Ai.MemoryService.PlayersInitialized)
                 return Messages.PlayersInfo;
 
             if (!this.Ai.MemoryService.RoadInitialized)
                 return Messages.RoutesInfo;
             
-            //debut de drunken ai 
             return WorkForAction(lastReceivedMessage);  
         }
     }
