@@ -47,5 +47,6 @@ public class Road
         ChestValue1 = int.Parse(road[2]);
         ChestValue2 = int.Parse(road[3]);
         ChestValue3 = int.Parse(road[4]);
+        IsMonsterPresent = bool.Parse(road[5]);
     }
 }

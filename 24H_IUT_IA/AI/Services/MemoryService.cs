@@ -71,15 +71,9 @@ public class MemoryService
         Road? lastRoad = null;
 
         foreach (var road in roads)
-            if (!(road is "True" or "False"))
-            {
-                lastRoad = new Road(road);
-                Roads.Add(lastRoad);
-            }
-            else if (lastRoad != null)
-            {
-                lastRoad.IsMonsterPresent = road == "True";
-            }
+        { 
+            new Road(road);
+        }
     }
 
     /// <summary>
